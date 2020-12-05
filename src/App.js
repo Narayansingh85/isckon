@@ -1,13 +1,16 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   Switch
 } from 'react-router-dom';
-import { ROUTE } from './constants';
 import HomeContainer from './containers/HomeContainer';
 import BlogContainer from './containers/BlogContainer';
+import ContactUsContainer from './containers/ContactUsContainer';
+import WisdomContainer from './containers/WisdomContainer';
 import Footer from './components/Footer';
+import { ROUTE } from './constants';
 import './styles/main.scss';
 
 class AppComponent extends React.Component {
@@ -16,8 +19,13 @@ class AppComponent extends React.Component {
       <div>
         <Router>
           <Switch>
-            <Route path={ROUTE.HOME} component={HomeContainer} exact/>
-            <Route path={ROUTE.BLOG} component={BlogContainer} exact/>
+            <Route path={ROUTE.HOME} component={HomeContainer} exact />
+            <Route path={ROUTE.BLOG} component={BlogContainer} exact />
+            <Route path={ROUTE.CONTACT_US} component={ContactUsContainer} exact />
+            <Route path={ROUTE.WISDOM_BATCH} component={WisdomContainer} exact />
+            <Route render={() => {
+              return <Redirect to={'/blog/lost'} />
+            }} />
           </Switch>
         </Router>
         <Footer />
