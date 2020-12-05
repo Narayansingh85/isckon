@@ -13,6 +13,7 @@ class Header extends React.Component {
     }
 
     handleScrollToElement = () => {
+        //something
         // this.handleHeader(window.scrollY, window.innerWidth);
         // this.handleHeaderBg(window.scrollY);
     };
