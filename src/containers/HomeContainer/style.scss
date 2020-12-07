@@ -51,10 +51,6 @@
 
     #practical-section {
         padding: 80px;
-        .btn {
-            font-size: 16px;
-            line-height: 20px;
-        }
         .topic-container {
             margin-top: 30px;
             .topic {
@@ -68,18 +64,11 @@
             line-height: 27px;
             margin-top: 30px;
         }
-        .btn-group {
-            margin: 50px auto;
-            width: fit-content;
-            margin-bottom: 0;
-            .btn:first-child {
-                margin-right: 40px;
-            }
-        }
     }
 
     #leader-section {
         padding: 80px;
+        padding-bottom: 0;
         .leader-container {
             display: flex;
             justify-content: space-between;
@@ -119,6 +108,7 @@
     }
 
     #wisdom-section {
+        padding-top: 80px;
         & > .banner {
             width: 100%;
             margin-bottom: 80px;
@@ -224,15 +214,6 @@
                 }
             }
         }
-    }
-
-    .heading {
-        font-size: 64px;
-        line-height: 96px;
-        text-align: center;
-    }
-    .bold {
-        font-weight: 800;
     }
     .btn {
         font-size: 16px;

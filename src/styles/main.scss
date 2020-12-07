@@ -7,6 +7,52 @@ body {
     font-family: $primaryFont;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: "";
+}
+
 .container {
     margin: $desktop-header 80px;
+}
+
+.heading {
+    font-size: 64px;
+    line-height: 96px;
+    text-align: center;
+}
+.bold {
+    font-weight: 800;
+}
+
+.btn {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.btn-group {
+    margin: 50px auto;
+    width: fit-content;
+    margin-bottom: 0;
+    .btn:first-child {
+        margin-right: 40px;
+    }
 }

@@ -77,7 +77,10 @@ class HomeContainer extends React.Component {
         return (
             <React.Fragment>
                 <Header navLinks={[
-                    { label: 'Let\'s talk Practical', path: '#practical' }
+                    { label: 'Let\'s talk Practical', path: '#practical-section' },
+                    { label: 'What Leaders say?', path: '#leader-section' },
+                    { label: 'Wisdom Batch', path: '#wisdom-section' },
+                    { label: 'Testimonials', path: '#testimonials' },
                 ]} />
                 <div className="home-container">
                     <div className="banner">
@@ -244,13 +247,13 @@ class HomeContainer extends React.Component {
                         <div className="heading bold">Testimonials</div>
                         <div className="subheading">Transformations gone real!</div>
                         <div className="test-container" style={{ opacity }}>
-                                <img src={TESTIMONIALS[currentTest].image} />
-                                <div className="quote-container">
-                                    <p className="quote">{TESTIMONIALS[currentTest].saying}</p>
-                                    <span className="author">{TESTIMONIALS[currentTest].name}</span>
-                                    <span className="desig">{TESTIMONIALS[currentTest].desig}</span>
-                                </div>
+                            <img src={TESTIMONIALS[currentTest].image} />
+                            <div className="quote-container">
+                                <p className="quote">{TESTIMONIALS[currentTest].saying}</p>
+                                <span className="author">{TESTIMONIALS[currentTest].name}</span>
+                                <span className="desig">{TESTIMONIALS[currentTest].desig}</span>
                             </div>
+                        </div>
                     </div>
                 </div>
             </React.Fragment >

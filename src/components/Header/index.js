@@ -1,5 +1,8 @@
 import React from 'react';
-import logo from '../../assets/images/logo.jpg';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import logo from '../../assets/images/iyf-logo.png';
+import { ROUTE } from '../../constants';
 import './style.scss';
 
 class Header extends React.Component {
@@ -41,19 +44,37 @@ class Header extends React.Component {
             nightify,
         } = this.state;
         const {
-            bgColor
+            bgColor,
+            navLinks,
         } = this.props;
         return (
             <div className={`header-container ${nightify ? 'nightify' : ''}`}
                 style={{ backgroundColor: bgColor }}
             >
-                <img className="logo" src={logo} />
-                <ul>
-                    <li>Let's talk Practical</li>
+                <Link to={ROUTE.HOME}><img className="logo" src={logo} /></Link>
+                <ul className="nav-bar">
+                    {
+                        navLinks.map((link) => (
+                            <li><a href={link.path}>{link.label}</a></li>
+                        ))
+                    }
                 </ul>
             </div>
         )
     }
+}
+
+Header.propTypes = {
+    navLinks: PropTypes.array
+};
+
+Header.defaultProps = {
+    navLinks: [
+        { label: 'Let\'s talk Practical', path: `${window.location.origin}#practical-section` },
+        { label: 'What Leaders say?', path: `${window.location.origin}#leader-section` },
+        { label: 'Wisdom Batch', path: `${window.location.origin}#wisdom-section` },
+        { label: 'Testimonials', path: `${window.location.origin}#testimonials` },
+    ]
 }
 
 export default Header;

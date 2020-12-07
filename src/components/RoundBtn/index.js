@@ -22,9 +22,14 @@ class RoundBtn extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.bgColor !== this.props.bgColor){
+        const {
+            bgColor,
+            textColor,
+        } = this.props;
+        if(prevProps.bgColor !== bgColor || prevProps.textColor !== textColor){
             this.setState({
-                bgColor: this.props.bgColor,
+                bgColor,
+                textColor
             })
         }
     }

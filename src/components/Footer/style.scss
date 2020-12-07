@@ -1,7 +1,39 @@
 @import '../../styles/constants.scss';
 
 .footer-container {
-    height: 200px;
+    padding: 40px;
+    box-sizing: border-box;
     width: 100%;
     background-color: $black;
+    display: flex;
+    justify-content: space-between;
+    .links {
+        display: flex;
+        flex-direction: column;
+        width: 250px;
+    }
+    a {
+        color: white;
+        text-decoration: none;
+        font-family: $secondaryFont;
+        line-height: 140%;
+        &:hover {
+            color: $yellow;
+        }
+    }
+    .content {
+        color: whitesmoke;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        .link-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .copyright {
+            padding-top: 10px;
+            border-top: 1px solid;
+        }
+    }
 }
