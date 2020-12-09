@@ -26,7 +26,7 @@ class RoundBtn extends React.Component {
             bgColor,
             textColor,
         } = this.props;
-        if(prevProps.bgColor !== bgColor || prevProps.textColor !== textColor){
+        if (prevProps.bgColor !== bgColor || prevProps.textColor !== textColor) {
             this.setState({
                 bgColor,
                 textColor
@@ -38,6 +38,7 @@ class RoundBtn extends React.Component {
         const {
             hoverTextColor,
             hoverBgColor,
+            hoverOutline,
         } = this.props;
         const changed = {};
         if (hoverBgColor) {
@@ -46,6 +47,9 @@ class RoundBtn extends React.Component {
         if (hoverTextColor) {
             changed.textColor = hoverTextColor;
         }
+        if (hoverOutline) {
+            changed.outlineColor = hoverOutline;
+        }
         this.setState(changed);
     }
 
@@ -53,10 +57,12 @@ class RoundBtn extends React.Component {
         const {
             textColor,
             bgColor,
+            outlineColor,
         } = this.props;
         this.setState({
             textColor,
             bgColor,
+            outlineColor,
         });
     }
 
@@ -64,13 +70,13 @@ class RoundBtn extends React.Component {
         const {
             className,
             children,
-            outlineColor,
             outlinePt,
             onClick,
         } = this.props;
         const {
             bgColor,
             textColor,
+            outlineColor,
         } = this.state;
         return (
             <button

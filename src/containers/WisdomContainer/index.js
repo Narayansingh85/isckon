@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from '../../components/Banner';
 import Header from '../../components/Header';
 import RoundBtn from '../../components/RoundBtn';
+import Input from '../../components/Input';
 import bgEnglish from '../../assets/images/bg-english.png';
 import wideBgEn from '../../assets/images/1606879754.png';
 import wideBgHi from '../../assets/images/1606995529.png';
@@ -10,8 +11,8 @@ import meet from '../../assets/images/meet.jpg';
 import fest from '../../assets/images/fest.png';
 import COLORS from '../../constants/colors';
 import motivation from '../../assets/images/josh-hild-jdTdvF6fDus-unsplash.jpg';
+import { subscribe } from '../../services';
 import './style.scss';
-import Input from '../../components/Input';
 
 const LANGUAGES = {
     HINDI: 'hindi',
@@ -36,6 +37,11 @@ class WisdomContainer extends React.Component {
                 book: 'Hindi Bhagavad Gita',
                 screenshot: '',
                 confirmation: false,
+            },
+            subscribeForm: {
+                name: '',
+                email: '',
+                contact: '',
             }
         }
     }
@@ -44,6 +50,28 @@ class WisdomContainer extends React.Component {
         this.setState({
             selectedBook: lang,
         })
+    }
+
+    subscribe = () => {
+        const {
+            subscribeForm,
+        } = this.state;
+        if (subscribeForm && subscribeForm.name && subscribeForm.email && subscribeForm.contact) {
+            subscribe({
+                timeStamp: new Date(),
+                ...subscribeForm,
+            }).then((res) => {
+                this.setState({
+                    subscribeForm: {
+                        name: '',
+                        email: '',
+                        contact: '',
+                    }
+                })
+            }).catch(err => {
+                console.log(err);
+            })
+        }
     }
 
     setFormData = (name, value) => {
@@ -58,31 +86,34 @@ class WisdomContainer extends React.Component {
         })
     }
 
+    setSubscribeForm = (name, value) => {
+        const {
+            subscribeForm,
+        } = this.state;
+        this.setState({
+            subscribeForm: {
+                ...subscribeForm,
+                [name]: value,
+            }
+        })
+    }
+
     render() {
         const {
             selectedBook,
-            formData: {
-                firstName,
-                lastName,
+            subscribeForm: {
+                name,
                 email,
-                whatsapp,
-                dob,
-                gender,
-                address,
-                city,
-                pincode,
-                book,
-                screenshot,
-                confirmation,
+                contact,
             }
         } = this.state;
 
         return (
             <div className="wisdom-container">
                 <Header navLinks={[
-                    { label: 'What\'s included', path:'#included-section' },
-                    { label: 'Motivation', path:'#motivation-section' },
-                    { label: 'Pricing', path:'#pricing-section' },
+                    { label: 'What\'s included', path: '#included-section' },
+                    { label: 'Motivation', path: '#motivation-section' },
+                    { label: 'Pricing', path: '#pricing-section' },
                 ]} />
                 <Banner
                     color={COLORS.BLACK}
@@ -173,11 +204,25 @@ class WisdomContainer extends React.Component {
                                 <p>+ Mega Youth Fest ticket ₹ 149</p>
                                 <p>+ Video courses and Life Mentorship</p>
                                 <p className="cost">₹ {selectedBook === LANGUAGES.HINDI ? '190' : '220'}/-</p>
+                                <a
+                                    href={
+                                        selectedBook === LANGUAGES.HINDI 
+                                        ? 'https://www.payumoney.com/paybypayumoney/#/299B7BB3820BB7318ACF157A4ADF639B'
+                                        : 'https://www.payumoney.com/paybypayumoney/#/1C8EA6A6EEC2F1BF7ADC6E38EA3D7CBF'
+                                    }>
+                                    <RoundBtn className="btn">
+                                    {
+                                        selectedBook === LANGUAGES.HINDI 
+                                        ? 'Enroll with Hindi Gita'
+                                        : 'Enroll with English Gita'
+                                    }
+                                    </RoundBtn>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="enroll-form">
+                {/* <div id="enroll-form">
                     <div className="heading bold">Enrollment Form</div>
                     <div className="form">
                         <Input
@@ -274,6 +319,36 @@ class WisdomContainer extends React.Component {
                         <button onClick={this.payNow}>
                             Pay Now
                         </button>
+                    </div>
+                </div> */}
+                <div className="action-footer">
+                    <div className="message">Get our updates delivered right into your Inbox</div>
+                    <div className="subscribe-form">
+                        <Input
+                            placeholder={'Name'}
+                            setValue={this.setSubscribeForm}
+                            value={name}
+                            name="name"
+                            required
+                        />
+                        <Input
+                            placeholder={'Email'}
+                            setValue={this.setSubscribeForm}
+                            value={email}
+                            name="email"
+                            test={/\S+@\S+\.\S+/}
+                            required
+                        />
+                        <Input
+                            placeholder={'Contact'}
+                            setValue={this.setSubscribeForm}
+                            value={contact}
+                            name="contact"
+                            maxlength={10}
+                            type={'number'}
+                            required
+                        />
+                        <button onClick={this.subscribe}>Subscribe</button>
                     </div>
                 </div>
             </div>

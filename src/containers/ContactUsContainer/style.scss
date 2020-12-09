@@ -1,0 +1,27 @@
+@import "../../styles/constants.scss";
+
+.contact-container {
+    .content {
+        padding: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        input {
+            margin: 4px;
+            width: 40%;
+        }
+        textarea {
+            width: 40%;
+            margin: 4px;
+            height: 200px;
+            font-family: $primaryFont;
+            padding: 4px 12px;
+            font-size: 18px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid $dark;
+            background-color: $white;
+        }
+    }
+}

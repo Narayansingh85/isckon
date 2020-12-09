@@ -3,6 +3,7 @@
 .wisdom-container {
     #included-section {
         padding: 80px;
+        padding-bottom: 0;
         .cards {
             margin-top: 50px;
             .card {
@@ -52,6 +53,9 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        .heading {
+            margin-bottom: 30px;
+        }
     }
 
     #pricing-section {
@@ -110,6 +114,9 @@
                         font-weight: bold;
                         font-size: 56px;
                         line-height: 67.2px;
+                    }
+                    .btn {
+                        margin-top: 12px;
                     }
                 }
             }

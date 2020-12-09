@@ -13,6 +13,7 @@ import icon3 from '../../assets/images/online-course.svg';
 import icon4 from '../../assets/images/mentor.svg';
 import icon5 from '../../assets/images/firework.svg';
 import { ROUTE } from '../../constants';
+import { subscribe } from '../../services';
 import './style.scss';
 
 class HomeContainer extends React.Component {
@@ -23,6 +24,11 @@ class HomeContainer extends React.Component {
             currentSlug: TOPICS[0].slug,
             currentLeader: 0,
             currentTest: 0,
+            subscribeForm: {
+                name: '',
+                email: '',
+                contact: '',
+            },
         }
         this.q_interval = '';
         this.l_interval = '';
@@ -64,12 +70,35 @@ class HomeContainer extends React.Component {
         });
     }
 
+    subscribe = () => {
+        const {
+            subscribeForm,
+        } = this.state;
+        if (subscribeForm && subscribeForm.name && subscribeForm.email && subscribeForm.contact) {
+            subscribe({
+                timeStamp: new Date(),
+                ...subscribeForm,
+            }).then((res) => {
+                this.setState({
+                    subscribeForm: {
+                        name: '',
+                        email: '',
+                        contact: '',
+                    }
+                })
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+    }
+
     render() {
         const {
             opacity,
             currentQuote,
             currentSlug,
             currentTest,
+            subscribeForm,
         } = this.state;
         const {
             history
@@ -125,6 +154,9 @@ class HomeContainer extends React.Component {
                                 hoverBgColor={COLORS.YELLOW}
                                 bgColor={COLORS.DARK}
                                 onClick={() => history.push(`/blog/${currentSlug}`)}
+                                outlinePt={2}
+                                outlineColor={COLORS.DARK}
+                                hoverOutline={COLORS.YELLOW}
                             >
                                 Read more about {TOPICS.find(topic => topic.slug === currentSlug).label}
                             </RoundBtn>
@@ -226,6 +258,9 @@ class HomeContainer extends React.Component {
                                 hoverBgColor={COLORS.YELLOW}
                                 bgColor={COLORS.DARK}
                                 onClick={() => history.push(ROUTE.WISDOM_BATCH)}
+                                outlinePt={2}
+                                outlineColor={COLORS.DARK}
+                                hoverOutline={COLORS.YELLOW}
                             >
                                 Know more
                             </RoundBtn>
@@ -254,6 +289,42 @@ class HomeContainer extends React.Component {
                                 <span className="desig">{TESTIMONIALS[currentTest].desig}</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className="action-footer">
+                    <div className="message">Get our updates delivered right into your Inbox</div>
+                    <div className="subscribe-form">
+                        <input
+                            placeholder="Name"
+                            value={subscribeForm.name}
+                            onChange={(e) => this.setState({
+                                subscribeForm: {
+                                    ...subscribeForm,
+                                    name: e.target.value
+                                }
+                            })}
+                        />
+                        <input
+                            placeholder="Email"
+                            value={subscribeForm.email}
+                            onChange={(e) => this.setState({
+                                subscribeForm: {
+                                    ...subscribeForm,
+                                    email: e.target.value
+                                }
+                            })}
+                        />
+                        <input
+                            placeholder="Contact"
+                            value={subscribeForm.contact}
+                            onChange={(e) => this.setState({
+                                subscribeForm: {
+                                    ...subscribeForm,
+                                    contact: e.target.value
+                                }
+                            })}
+                        />
+                        <button onClick={this.subscribe}>Subscribe</button>
                     </div>
                 </div>
             </React.Fragment >
