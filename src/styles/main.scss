@@ -1,10 +1,12 @@
 @import "./reset.scss";
 @import "./fonts.scss";
 @import "./constants.scss";
+@import "./mixins.scss";
 
 html,
 body {
     font-family: $primaryFont;
+    overflow-x: hidden;
 }
 
 html {
@@ -30,14 +32,16 @@ select {
     text-overflow: "";
 }
 
-.container {
-    margin: $desktop-header 80px;
-}
-
 .heading {
     font-size: 64px;
-    line-height: 96px;
+    line-height: 150%;
     text-align: center;
+    @include for-tablet {
+        font-size: 56px;
+    }
+    @include for-phone {
+        font-size: 42px;
+    }
 }
 .bold {
     font-weight: 800;
@@ -45,15 +49,26 @@ select {
 
 .btn {
     font-size: 16px;
-    line-height: 20px;
+    line-height: 125%;
+    @include for-phone {
+        font-size: 14px;
+    }
 }
 
 .btn-group {
     margin: 50px auto;
     width: fit-content;
     margin-bottom: 0;
+    @include for-phone {
+        display: flex;
+        flex-direction: column;
+    }
     .btn:first-child {
         margin-right: 40px;
+        @include for-phone {
+            margin: 0;
+            margin-bottom: 12px;
+        }
     }
 }
 
@@ -62,20 +77,40 @@ select {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 80px;
+    padding: $desktop-header-height $desktop-spacing;
     background: #292929;
     box-sizing: border-box;
+    @include for-tablet {
+        padding: $tablet-header-height $tablet-spacing;
+    }
+    @include for-phone {
+        flex-direction: column;
+        padding: $mobile-header-height $mobile-spacing;
+    }
     .message {
         color: white;
         font-weight: 500;
         font-size: 46px;
         line-height: 140%;
         width: 45%;
+        @include for-tablet {
+            width: 60%;
+        }
+        @include for-phone {
+            width: 100%;
+            margin-bottom: 30px;
+        }
     }
     .subscribe-form {
         display: flex;
         flex-direction: column;
         align-items: center;
+        @include for-tablet {
+            flex: 1;
+        }
+        @include for-phone {
+            width: 100%;
+        }
         input {
             margin: 4px 0;
             padding: 4px 12px;
@@ -85,6 +120,12 @@ select {
             border: 1px solid $dark;
             font-family: $primaryFont;
             background-color: $white;
+            @include for-tablet {
+                width: 100%;
+            }
+            @include for-phone {
+                width: 100%;
+            }
         }
         button {
             border: 0;

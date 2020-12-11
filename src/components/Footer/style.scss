@@ -1,4 +1,5 @@
-@import '../../styles/constants.scss';
+@import "../../styles/constants.scss";
+@import "../../styles/mixins.scss";
 
 .footer-container {
     padding: 40px;
@@ -7,6 +8,15 @@
     background-color: $black;
     display: flex;
     justify-content: space-between;
+    @include for-phone {
+        flex-direction: column;
+        align-items: center;
+    }
+    iframe {
+        @include for-phone {
+            width: 100%;
+        }
+    }
     .links {
         display: flex;
         flex-direction: column;
@@ -27,9 +37,17 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        @include for-phone {
+            width: 100%;
+            margin-top: 20px;
+        }
         .link-container {
             display: flex;
             justify-content: space-between;
+            @include for-phone {
+                justify-content: space-around;
+                margin-bottom: 20px;
+            }
         }
         .copyright {
             padding-top: 10px;

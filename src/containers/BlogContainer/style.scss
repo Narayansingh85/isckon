@@ -1,4 +1,5 @@
 @import "../../styles/constants.scss";
+@import "../../styles/mixins.scss";
 
 .blog-container {
     & > .banner {
@@ -7,12 +8,18 @@
         position: relative;
         .text {
             position: absolute;
-            padding: 50px 80px;
+            padding: 50px $desktop-spacing;
             box-sizing: border-box;
             width: 100%;
             bottom: 0;
             left: 0;
             color: $white;
+            @include for-tablet {
+                padding: 50px $tablet-spacing;
+            }
+            @include for-phone {
+                padding: 40px $mobile-spacing;
+            }
             .title {
                 font-size: 72px;
                 line-height: 86.5px;
@@ -29,9 +36,15 @@
         }
     }
     & > .blog {
-        margin: 80px;
+        margin: $desktop-header-height $desktop-spacing;
         font-size: 18px;
         line-height: 160%;
+        @include for-tablet {
+            margin: $tablet-header-height $tablet-spacing;
+        }
+        @include for-phone {
+            margin: $mobile-header-height $mobile-spacing;
+        }
         .para {
             margin-bottom: 10px;
         }
