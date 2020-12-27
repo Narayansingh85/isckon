@@ -9,6 +9,7 @@ import HomeContainer from './containers/HomeContainer';
 import BlogContainer from './containers/BlogContainer';
 import ContactUsContainer from './containers/ContactUsContainer';
 import WisdomContainer from './containers/WisdomContainer';
+import UmangContainer from './containers/UmangContainer';
 import Footer from './components/Footer';
 import { ROUTE } from './constants';
 import './styles/main.scss';
@@ -23,6 +24,7 @@ class AppComponent extends React.Component {
             <Route path={ROUTE.BLOG} component={BlogContainer} exact />
             <Route path={ROUTE.CONTACT_US} component={ContactUsContainer} exact />
             <Route path={ROUTE.WISDOM_BATCH} component={WisdomContainer} exact />
+            <Route path={ROUTE.UMANG} component={UmangContainer} exact />
             <Route render={() => {
               return <Redirect to={'/blog/lost'} />
             }} />
