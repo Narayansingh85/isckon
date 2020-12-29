@@ -4,11 +4,12 @@ import {
     FETCH_VOLUNTEER_LIST,
 } from '../constants';
 
+const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://iyfapi.herokuapp.com';
+
 export const createNewRegistration = (userDetails) => {
-    console.log(userDetails);
-    return axios.post(CREATE_NEW_REGISTRATION, userDetails);
+    return axios.post(BASE_URL + CREATE_NEW_REGISTRATION, userDetails);
 }
 
 export const fetchVolunteerList = () => {
-    return axios.get(FETCH_VOLUNTEER_LIST);
+    return axios.get(BASE_URL + FETCH_VOLUNTEER_LIST);
 }

@@ -7,5 +7,6 @@ export const ROUTE = {
     UMANG: '/umang',
 }
 
-export const CREATE_NEW_REGISTRATION = '';
-export const FETCH_VOLUNTEER_LIST = '';
+export const CREATE_NEW_REGISTRATION = '/user/register';
+export const FETCH_VOLUNTEER_LIST = '/user/volunteers';
+export const FETCH_ALL_USERS = '/user/fetchAll';

@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from '../../components/Input';
 import RoundBtn from '../../components/RoundBtn';
-import { createNewRegistration } from '../../services/umang';
+import { createNewRegistration, fetchVolunteerList } from '../../services/umang';
 import COLORS from '../../constants/colors';
 import './style.scss';
 
@@ -14,8 +14,18 @@ class UmangContainer extends React.Component {
             contact: '',
             location: '',
             registeredBy: '',
-            registeredBy2: undefined
+            registeredBy2: undefined,
+            volunteers: ['OTHER']
         }
+    }
+
+    componentDidMount = () => {
+        fetchVolunteerList().then(res => {
+            const volunteers = res.map(v => v.toUpperCase());
+            this.setState({
+                volunteers: [...volunteers, 'OTHER'],
+            });
+        });
     }
 
     setFormData = (name, value) => {
@@ -26,7 +36,6 @@ class UmangContainer extends React.Component {
             });
         } else {
             this.setState({
-                registeredBy2: undefined,
                 [name]: value,
             });
         }
@@ -39,18 +48,31 @@ class UmangContainer extends React.Component {
             location,
             registeredBy,
             registeredBy2,
+            volunteers,
         } = this.state;
         if (name
             && email
             && contact
             && location
-            && registeredBy) {
+            && registeredBy
+            && ((registeredBy === 'OTHER' && registeredBy2) || registeredBy !== 'OTHER')) {
             createNewRegistration({
-                ...this.state,
+                name,
+                email,
+                contact,
+                location,
                 registeredBy: registeredBy2 || registeredBy,
                 registeredBy2: undefined
             }).then(res => {
-                alert('Details saved successfully!')
+                this.setState({
+                    name: '',
+                    email: '',
+                    contact: '',
+                    location: '',
+                    registeredBy: '',
+                    registeredBy2: undefined
+                });
+                alert('Details saved successfully!');
             }).catch(e => {
                 alert("error occured:", e);
             })
@@ -67,6 +89,7 @@ class UmangContainer extends React.Component {
             location,
             registeredBy,
             registeredBy2,
+            volunteers,
         } = this.state;
         return (
             <div className="umang-container">
@@ -106,14 +129,7 @@ class UmangContainer extends React.Component {
                         value={registeredBy}
                         name="registeredBy"
                         type="select"
-                        options={[
-                            'HARSH SAXENA',
-                            'DEEP SHUBHANJAY',
-                            'SAHIL VERMA',
-                            'ANUJ RUHELA',
-                            'RAVI GARG',
-                            'OTHER'
-                        ]}
+                        options={volunteers}
                         className="full input"
                         required
                     />

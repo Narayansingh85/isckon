@@ -66,12 +66,13 @@ class Input extends React.Component {
                         className={`input-container ${className ? className : ''}`}
                         style={{ borderColor }}
                         name={name}
-                        value={value}
+                        value={value === '' ? null : value}
                         onFocus={this.onFocusIn}
                         onBlur={this.onFocusOut}
                         placeholder={placeholder}
                         onChange={(e) => setValue(name, e.target.value)}
                     >
+                        <option disabled selected value> -- select an option -- </option>
                         {options.map(opt => {
                             return (
                                 <option value={typeof (opt) === 'string' ? opt : opt.value}>
