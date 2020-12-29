@@ -21,7 +21,7 @@ class UmangContainer extends React.Component {
 
     componentDidMount = () => {
         fetchVolunteerList().then(res => {
-            const volunteers = res.map(v => v.toUpperCase());
+            const volunteers = res.data.map(v => v.toUpperCase());
             this.setState({
                 volunteers: [...volunteers, 'OTHER'],
             });
