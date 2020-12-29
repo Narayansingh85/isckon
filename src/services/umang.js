@@ -4,7 +4,7 @@ import {
     FETCH_VOLUNTEER_LIST,
 } from '../constants';
 
-const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://iyfapi.herokuapp.com';
+const BASE_URL = window && window.origin && window.origin.contains('iyfghaziabad') ? 'https://iyfapi.herokuapp.com' : 'http://localhost:8080';
 
 export const createNewRegistration = (userDetails) => {
     return axios.post(BASE_URL + CREATE_NEW_REGISTRATION, userDetails);
