@@ -82,7 +82,7 @@ class Input extends React.Component {
                         })}
                     </select>
                 )}
-                {(type === 'text' || type === 'date' || type === 'number') && (
+                {(type === 'text' || type === 'date' || type === 'number' || type === 'email') && (
                     <input
                         className={`input-container ${className ? className : ''}`}
                         style={{ borderColor }}

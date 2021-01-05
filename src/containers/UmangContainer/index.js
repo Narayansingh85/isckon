@@ -21,7 +21,7 @@ class UmangContainer extends React.Component {
 
     componentDidMount = () => {
         fetchVolunteerList().then(res => {
-            const volunteers = res.data.map(v => v.toUpperCase());
+            const volunteers = res.data;
             this.setState({
                 volunteers: [...volunteers, 'OTHER'],
             });
@@ -107,6 +107,8 @@ class UmangContainer extends React.Component {
                         setValue={this.setFormData}
                         value={contact}
                         name="contact"
+                        type="number"
+                        maxLength="10"
                         required
                     />
                     <Input
@@ -114,6 +116,7 @@ class UmangContainer extends React.Component {
                         setValue={this.setFormData}
                         value={email}
                         name="email"
+                        type="email"
                         required
                     />
                     <Input
