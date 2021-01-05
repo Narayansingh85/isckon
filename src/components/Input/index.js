@@ -115,10 +115,23 @@ class Input extends React.Component {
                         }
                     </div>
                 )}
+                {(type === 'checkbox') && (
+                    <div className="checkbox">
+                        <input
+                            className={`input-container ${className ? className : ''}`}
+                            style={{ display: "inline-block", width: "fit-content" }}
+                            name={name}
+                            checked={value}
+                            onChange={(e) => setValue(name, e.target.checked)}
+                            type={type}
+                        />
+                        <label>{placeholder}</label>
+                    </div>
+                )}
                 {(type === 'file') && (
                     <button id="upload_widget" class="cloudinary-button">Upload files</button>
                 )}
-            </React.Fragment>
+            </React.Fragment >
 
         )
     }

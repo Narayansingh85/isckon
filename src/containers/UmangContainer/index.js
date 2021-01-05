@@ -13,6 +13,9 @@ class UmangContainer extends React.Component {
             email: '',
             contact: '',
             location: '',
+            remarks: '',
+            withBhagavadGita: false,
+            moneyPaid: '',
             registeredBy: '',
             registeredBy2: undefined,
             volunteers: ['OTHER']
@@ -49,6 +52,9 @@ class UmangContainer extends React.Component {
             registeredBy,
             registeredBy2,
             volunteers,
+            remarks,
+            withBhagavadGita,
+            moneyPaid,
         } = this.state;
         if (name
             && email
@@ -61,6 +67,9 @@ class UmangContainer extends React.Component {
                 email,
                 contact,
                 location,
+                remarks,
+                withBhagavadGita,
+                moneyPaid: moneyPaid || 0,
                 registeredBy: registeredBy2 || registeredBy,
                 registeredBy2: undefined
             }).then(res => {
@@ -69,12 +78,15 @@ class UmangContainer extends React.Component {
                     email: '',
                     contact: '',
                     location: '',
+                    remarks: '',
+                    withBhagavadGita: false,
+                    moneyPaid: '',
                     registeredBy: '',
                     registeredBy2: undefined
                 });
                 alert('Details saved successfully!');
             }).catch(e => {
-                alert("error occured:", e);
+                alert("Error:", e.message);
             })
         } else {
             alert("Please fill details");
@@ -90,6 +102,9 @@ class UmangContainer extends React.Component {
             registeredBy,
             registeredBy2,
             volunteers,
+            remarks,
+            moneyPaid,
+            withBhagavadGita,
         } = this.state;
         return (
             <div className="umang-container">
@@ -127,6 +142,22 @@ class UmangContainer extends React.Component {
                         required
                     />
                     <Input
+                        placeholder={'Amount Received'}
+                        setValue={this.setFormData}
+                        value={moneyPaid}
+                        name="moneyPaid"
+                        type="number"
+                        maxLength="4"
+                    />
+                    <Input
+                        placeholder={'With Bhagavad Gita'}
+                        setValue={this.setFormData}
+                        value={withBhagavadGita}
+                        name="withBhagavadGita"
+                        type="checkbox"
+                        required
+                    />
+                    <Input
                         placeholder={'Registered by'}
                         setValue={this.setFormData}
                         value={registeredBy}
@@ -143,6 +174,12 @@ class UmangContainer extends React.Component {
                         name="registeredBy2"
                         required
                     />}
+                    <Input
+                        placeholder={'Remarks'}
+                        setValue={this.setFormData}
+                        value={remarks}
+                        name="remarks"
+                    />
                     <RoundBtn
                         className="btn selector-btn"
                         onClick={this.register}
