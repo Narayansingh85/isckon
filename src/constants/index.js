@@ -5,7 +5,8 @@ export const ROUTE = {
     WISDOM_BATCH: '/wisdom-batch',
     PRIVACY: '/privacy',
     UMANG: '/umang',
-    LIST: '/umang/list',
+    UMANG_VOLUNTEER: '/umang/volunteer',
+    UMANG_LIST: '/umang/list',
 }
 
 export const CREATE_NEW_REGISTRATION = '/user/register';
