@@ -16,7 +16,7 @@ class UmangVolunteerContainer extends React.Component {
             remarks: '',
             withBhagavadGita: false,
             moneyPaid: '',
-            registeredBy: '',
+            registeredBy: '0',
             registeredBy2: undefined,
             volunteers: ['OTHER']
         }
@@ -81,7 +81,7 @@ class UmangVolunteerContainer extends React.Component {
                     remarks: '',
                     withBhagavadGita: false,
                     moneyPaid: '',
-                    registeredBy: '',
+                    registeredBy: '0',
                     registeredBy2: undefined
                 });
                 alert('Details saved successfully!');
@@ -167,7 +167,7 @@ class UmangVolunteerContainer extends React.Component {
                         className="full input"
                         required
                     />
-                    {typeof registeredBy2 === 'string' && <Input
+                    {registeredBy === 'OTHER' && <Input
                         placeholder={'Registered by'}
                         setValue={this.setFormData}
                         value={registeredBy2}

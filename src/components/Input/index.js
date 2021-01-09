@@ -72,7 +72,7 @@ class Input extends React.Component {
                         placeholder={placeholder}
                         onChange={(e) => setValue(name, e.target.value)}
                     >
-                        <option disabled selected value> Registered By </option>
+                        <option disabled selected value="0"> Registered By </option>
                         {options.map(opt => {
                             return (
                                 <option value={typeof (opt) === 'string' ? opt : opt.value}>
