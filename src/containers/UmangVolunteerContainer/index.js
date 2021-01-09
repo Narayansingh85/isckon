@@ -191,7 +191,7 @@ class UmangVolunteerContainer extends React.Component {
                         Register
                     </RoundBtn>
                     <div className="note">
-                        Please put your full name in Registered By section. ISKCON YOUTH FORUM GHAZIABAD holds the right to cancel the registration, if any discrepancies found.
+                        Please put your full name in <strong>Registered By</strong> field. ISKCON YOUTH FORUM GHAZIABAD holds the right to cancel the registration, if any discrepancies found.
                     </div>
                 </div>
             </div>
