@@ -33,8 +33,8 @@ class UmangRegListContainer extends Component {
         const columnDelimiter = ',';
         const lineDelimiter = '\n';
         // const keys = Object.keys(data[0]);
-        const names = COLUMNS.map(e => e.name);
-        const keys = COLUMNS.map(e => e.selector);
+        const names = COLUMNS(() => {}, false).map(e => e.name).slice(0, -1);
+        const keys = COLUMNS(() => {}, false).map(e => e.selector).slice(0, -1);
 
         result = '';
         result += names.join(columnDelimiter);
@@ -103,6 +103,7 @@ class UmangRegListContainer extends Component {
                 break;
             }
             case 'attend': {
+                this.setState({disabled: true})
                 markAttendance(row.id, !row.isPresent)
                     .then((res) => {
                         const updatedData = this.state.data.map(participant => {
@@ -113,8 +114,10 @@ class UmangRegListContainer extends Component {
                         });
                         this.setState({
                             data: updatedData,
+                            disabled: false,
                         })
                     }).catch(err => {
+                        this.setState({disabled: false})
                         alert(err.message);
                     })
             }
@@ -134,6 +137,7 @@ class UmangRegListContainer extends Component {
                 withBhagavadGita,
                 location,
                 registeredBy,
+                institute,
             },
         } = this.state;
         updateUser({
@@ -145,7 +149,8 @@ class UmangRegListContainer extends Component {
             remarks,
             withBhagavadGita,
             moneyPaid,
-            registeredBy
+            registeredBy,
+            institute,
         }).then((res) => {
             const updatedData = this.state.data.map(participant => {
                 if (participant.id === id) {
@@ -154,6 +159,7 @@ class UmangRegListContainer extends Component {
                     participant.contact = contact;
                     participant.moneyPaid = moneyPaid;
                     participant.registeredBy = registeredBy;
+                    participant.institute = institute;
                 }
                 return participant;
             });
@@ -176,6 +182,7 @@ class UmangRegListContainer extends Component {
             filteredData,
             editPopup,
             viewPopup,
+            disabled,
         } = this.state;
         return (
             <div className="reg-list-container">
@@ -185,7 +192,7 @@ class UmangRegListContainer extends Component {
                 </div>
                 <DataTable
                     title="All Umang Registrations"
-                    columns={COLUMNS(this.handleButtonClick)}
+                    columns={COLUMNS(this.handleButtonClick, disabled)}
                     data={searchText.length ? filteredData : data}
                     pagination
                     selectableRows
@@ -210,6 +217,10 @@ class UmangRegListContainer extends Component {
                                 <input autoComplete="off" value={editPopup.moneyPaid}
                                 onChange={(e) => {this.setState({editPopup: {...editPopup, moneyPaid: e.target.value}})}}/>
                             </b></li>
+                            <li>Institute<br /><b>
+                                <input autoComplete="off" value={editPopup.institute}
+                                onChange={(e) => {this.setState({editPopup: {...editPopup, institute: e.target.value}})}}/>
+                            </b></li>
                             <li>Registered By<br /><b>
                                 <input autoComplete="off" value={editPopup.registeredBy}
                                 onChange={(e) => {this.setState({editPopup: {...editPopup, registeredBy: e.target.value}})}}/>
@@ -228,6 +239,7 @@ class UmangRegListContainer extends Component {
                             <li>Registered by: <b>{viewPopup.registeredBy}</b></li>
                             <li>Money left to be paid: <b>Rs. {viewPopup.moneyLeftToBePaid}</b></li>
                             <li>Remarks: <b>{viewPopup.remarks}</b></li>
+                            <li>Institute: <b>{viewPopup.institute}</b></li>
                             <li>Registered on: <b>{viewPopup.registeredOn}</b></li>
                         </ul>
                     </div>

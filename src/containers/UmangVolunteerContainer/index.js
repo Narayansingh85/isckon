@@ -18,7 +18,8 @@ class UmangVolunteerContainer extends React.Component {
             moneyPaid: '',
             registeredBy: '0',
             registeredBy2: undefined,
-            volunteers: ['OTHER']
+            volunteers: ['OTHER'],
+            institute: '',
         }
     }
 
@@ -55,6 +56,7 @@ class UmangVolunteerContainer extends React.Component {
             remarks,
             withBhagavadGita,
             moneyPaid,
+            institute,
         } = this.state;
         if (name
             && email
@@ -71,7 +73,8 @@ class UmangVolunteerContainer extends React.Component {
                 withBhagavadGita,
                 moneyPaid: moneyPaid || 0,
                 registeredBy: registeredBy2 || registeredBy,
-                registeredBy2: undefined
+                registeredBy2: undefined,
+                institute,
             }).then(res => {
                 this.setState({
                     name: '',
@@ -82,9 +85,10 @@ class UmangVolunteerContainer extends React.Component {
                     withBhagavadGita: false,
                     moneyPaid: '',
                     registeredBy: '0',
-                    registeredBy2: undefined
+                    registeredBy2: undefined,
+                    institute: '',
                 });
-                alert('Details saved successfully!');
+                alert(res.data);
             }).catch(e => {
                 alert("Error:", e.message);
             })
@@ -105,6 +109,7 @@ class UmangVolunteerContainer extends React.Component {
             remarks,
             moneyPaid,
             withBhagavadGita,
+            institute,
         } = this.state;
         return (
             <div className="umang-container">
@@ -174,6 +179,12 @@ class UmangVolunteerContainer extends React.Component {
                         name="registeredBy2"
                         required
                     />}
+                    <Input
+                        placeholder={'Institute'}
+                        setValue={this.setFormData}
+                        value={institute}
+                        name="institute"
+                    />
                     <Input
                         placeholder={'Remarks'}
                         setValue={this.setFormData}

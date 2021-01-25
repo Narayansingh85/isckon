@@ -1,4 +1,4 @@
-export const COLUMNS = (cb) => [
+export const COLUMNS = (cb, disabled) => [
     {
         name: 'ID',
         selector: 'registrationCode',
@@ -52,13 +52,14 @@ export const COLUMNS = (cb) => [
             onClick={() => { cb('edit', row) }}>Edit</button>
             <button style={{
                 color: 'white', 
-                background: row.isPresent ? '#500' : '#050',
+                background: (disabled ? '#666' : (row.isPresent ? '#500' : '#050')),
                 border: '1px solid black',
                 margin: '2px',
                 borderRadius: '4px',
             }} 
+            disabled={disabled}
             onClick={() => { cb('attend', row) }}>
-                {row.isPresent ? 'Mark Absent' : 'Mark Present'}
+                {disabled ? 'Please Wait...' : (row.isPresent ? 'Mark Absent' : 'Mark Present')}
             </button>
         </div>)
     }
