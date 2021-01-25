@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import DataTable, { createTheme } from 'react-data-table-component';
-import { fetchAllRegistrations } from "../../services/umang";
+import DataTable, { createTheme, memoize } from 'react-data-table-component';
+import { fetchAllRegistrations, markAttendance, updateUser } from "../../services/umang";
 import { COLUMNS } from "./constants";
 import "./style.scss";
 
@@ -8,7 +8,11 @@ class UmangRegListContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            filteredData: [],
+            searchText: '',
+            editPopup: null,
+            viewPopup: null,
         };
     }
     componentDidMount() {
@@ -68,22 +72,166 @@ class UmangRegListContainer extends Component {
         // this.exportRef.click();
     }
 
+    onSearch = (e) => {
+        const {
+            data
+        } = this.state;
+        const value = e.target.value;
+        const lowered = value && value.toLowerCase();
+        this.setState({
+            filteredData: data.filter(participant => {
+                return (
+                    (participant.registrationCode.toLowerCase()).includes(lowered)
+                    || (participant.name.toLowerCase()).includes(lowered)
+                    || (participant.email.toLowerCase()).includes(lowered)
+                    || (participant.contact.toString().toLowerCase()).includes(lowered)
+                    || (participant.registeredBy.toLowerCase()).includes(lowered)
+                )
+            }),
+            searchText: value,
+        })
+    }
+
+    handleButtonClick = (type, row) => {
+        switch (type) {
+            case 'edit': {
+                this.setState({ editPopup: row });
+                break;
+            }
+            case 'view': {
+                this.setState({ viewPopup: row });
+                break;
+            }
+            case 'attend': {
+                markAttendance(row.id, !row.isPresent)
+                    .then((res) => {
+                        const updatedData = this.state.data.map(participant => {
+                            if (participant.id === row.id) {
+                                participant.isPresent = !row.isPresent
+                            }
+                            return participant;
+                        });
+                        this.setState({
+                            data: updatedData,
+                        })
+                    }).catch(err => {
+                        alert(err.message);
+                    })
+            }
+            default:
+        }
+    }
+
+    sendUpdateRequest = () => {
+        const {
+            editPopup: {
+                id,
+                name,
+                email,
+                contact,
+                moneyPaid,
+                remarks,
+                withBhagavadGita,
+                location,
+                registeredBy,
+            },
+        } = this.state;
+        updateUser({
+            id,
+            name,
+            email,
+            contact,
+            location,
+            remarks,
+            withBhagavadGita,
+            moneyPaid,
+            registeredBy
+        }).then((res) => {
+            const updatedData = this.state.data.map(participant => {
+                if (participant.id === id) {
+                    participant.name = name;
+                    participant.email = email;
+                    participant.contact = contact;
+                    participant.moneyPaid = moneyPaid;
+                    participant.registeredBy = registeredBy;
+                }
+                return participant;
+            });
+            this.setState({
+                data: updatedData,
+                editPopup: null,
+            })
+        }).catch(err => {
+            alert(err.message);
+            this.setState({
+                editPopup: null,
+            })
+        })
+    }
+
     render() {
         const {
             data,
+            searchText,
+            filteredData,
+            editPopup,
+            viewPopup,
         } = this.state;
         return (
             <div className="reg-list-container">
-                <div>
-                    <a ref={(ref)=> {this.exportRef = ref;}} onClick={() => this.downloadCSV(data)}><button>Export to CSV</button></a>
+                <div className="header-bar">
+                    <a ref={(ref) => { this.exportRef = ref; }} onClick={() => this.downloadCSV(data)}><button>Export to CSV</button></a>
+                    <input autoComplete="off" id="search" type="text" placeholder="Search by Ticket ID / Name/ Email / Phone number" aria-label="Search Input" value={searchText} onChange={this.onSearch} />
                 </div>
                 <DataTable
                     title="All Umang Registrations"
-                    columns={COLUMNS}
-                    data={data}
+                    columns={COLUMNS(this.handleButtonClick)}
+                    data={searchText.length ? filteredData : data}
                     pagination
                     selectableRows
+                    dense
                 />
+                {editPopup && <div className="popup-outer" onClick={() => {this.setState({ editPopup: null })}}>
+                    <div className="popup-inner" onClick={(e) => {e.stopPropagation()}}>
+                        <ul className="edit-sheet">
+                            <li>Name<br /><b>
+                                <input autoComplete="off" value={editPopup.name}
+                                onChange={(e) => {this.setState({editPopup: {...editPopup, name: e.target.value}})}}/>
+                            </b></li>
+                            <li>Email<br /><b>
+                                <input autoComplete="off" value={editPopup.email}
+                                onChange={(e) => {this.setState({editPopup: {...editPopup, email: e.target.value}})}}/>
+                            </b></li>
+                            <li>Contact<br /><b>
+                                <input autoComplete="off" value={editPopup.contact}
+                                onChange={(e) => {this.setState({editPopup: {...editPopup, contact: e.target.value}})}}/>
+                            </b></li>
+                            <li>Money Paid<br /><b>
+                                <input autoComplete="off" value={editPopup.moneyPaid}
+                                onChange={(e) => {this.setState({editPopup: {...editPopup, moneyPaid: e.target.value}})}}/>
+                            </b></li>
+                            <li>Registered By<br /><b>
+                                <input autoComplete="off" value={editPopup.registeredBy}
+                                onChange={(e) => {this.setState({editPopup: {...editPopup, registeredBy: e.target.value}})}}/>
+                            </b></li>
+                        </ul>
+                        <button onClick={this.sendUpdateRequest}>UPDATE</button>
+                    </div>
+                </div>}
+                {viewPopup && <div className="popup-outer" onClick={() => this.setState({ viewPopup: null })}>
+                    <div className="popup-inner" onClick={(e) => {e.stopPropagation()}}>
+                        <ul className="view-sheet">
+                            <li>Ticket ID: <b>{viewPopup.registrationCode}</b></li>
+                            <li>Name: <b>{viewPopup.name}</b></li>
+                            <li>Email: <b>{viewPopup.email}</b></li>
+                            <li>Contact: <b>{viewPopup.contact}</b></li>
+                            <li>Registered by: <b>{viewPopup.registeredBy}</b></li>
+                            <li>Money left to be paid: <b>Rs. {viewPopup.moneyLeftToBePaid}</b></li>
+                            <li>Remarks: <b>{viewPopup.remarks}</b></li>
+                            <li>Registered on: <b>{viewPopup.registeredOn}</b></li>
+                        </ul>
+                    </div>
+                </div>}
             </div>
         )
     }
