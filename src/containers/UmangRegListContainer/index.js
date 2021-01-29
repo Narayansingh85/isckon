@@ -237,7 +237,7 @@ class UmangRegListContainer extends Component {
                             <li>Email: <b>{viewPopup.email}</b></li>
                             <li>Contact: <b>{viewPopup.contact}</b></li>
                             <li>Registered by: <b>{viewPopup.registeredBy}</b></li>
-                            <li>With Bhagavad Gita: <b>{viewPopup.withBhagavadGita}</b></li>
+                            <li>With Bhagavad Gita: <b>{viewPopup.withBhagavadGita ? 'YES' : 'NO'}</b></li>
                             <li>Money left to be paid: <b>Rs. {viewPopup.moneyLeftToBePaid}</b></li>
                             <li>Remarks: <b>{viewPopup.remarks}</b></li>
                             <li>Institute: <b>{viewPopup.institute}</b></li>
